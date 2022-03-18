@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const Noticiachema = new mongoose.Schema(
+const NoticiasSchema = new mongoose.Schema(
     {
     titulo:{type:String, required:true, unique:true},
     subtitulo:{type:String, required:true},
@@ -14,4 +14,4 @@ const Noticiachema = new mongoose.Schema(
     }
 );
 
-module.export = mongoose.model("Usuario", Noticiachema);
+module.exports = mongoose.model("Noticia", NoticiasSchema);
