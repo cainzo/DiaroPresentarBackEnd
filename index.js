@@ -13,8 +13,8 @@ app.use(express.json());
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
-app.use("/api/noticias", noticiasRoute);
-app.use("/noticias", mostrarCatRoute);
+app.use("/api/crudnoticias", noticiasRoute);
+app.use("/api/noticias", mostrarCatRoute);
  
 
 app.listen(8800, ()=>{

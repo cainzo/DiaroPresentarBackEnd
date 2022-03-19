@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
       ]).sort({ _id: -1 }).limit(10);
       res.status(200).json(mostrarNoticias);
     } else {
-      const mostrarNoticias = await Noticias.find();
+      const mostrarNoticias = await Noticias.find().sort({ _id: -1 }).limit(20);
       res.status(200).json(mostrarNoticias);
     }
   } catch (err) {
