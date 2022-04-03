@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Usuario = require("../models/Usuario");
 const CryptoJS = require("crypto-js");
 const verify = require("../verifyToken");
+const { getAllUsuarios } = require("../controllers/usuariosTableController");
 
 //Update usuario
 router.put("/:id", verify, async (req, res) => {
@@ -55,10 +56,11 @@ router.get("/find/:id", verify, async (req, res) => {
     res.status(500).json(err);
   }
 });
-
+//get all para tabla dinamica 
+router.route("/").get(getAllUsuarios);
 //get all
 
-router.get("/", verify, async (req, res) => {
+router.get("/ultimos10", verify, async (req, res) => {
   const query = req.query.new;
   if (req.user.isAdmin) {
     try {

@@ -3,17 +3,6 @@ const router = require("express").Router();
 const Noticias = require("../models/Noticias");
 
 
-// get todas las noticias
-//router.get("/",  async (req, res) => {
-//
-// try {
-//   const mostrarNoticias =
-//      await Noticias.find()
-//   res.status(200).json(mostrarNoticias);
-// } catch (err) {
-//   res.status(500).json(err);
-// }
-//});
 
 //mostrar noticia por categoria
 
@@ -34,7 +23,16 @@ router.get("/", async (req, res) => {
   }
 });
 
-//delete
+//mostrar noticia por id
+router.get("/:id", async (req, res) => {
+  try {
+      const noticia = await Noticias.findById(req.params.id)
+   
+    res.status(200).json(noticia);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 //get categoria
 module.exports = router;
