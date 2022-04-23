@@ -12,10 +12,10 @@ router.get("/", async (req, res) => {
     if (categoriaQuery) {
       const mostrarNoticias = await Noticias.aggregate([
         {$match: {categoria:categoriaQuery}},
-      ]).sort({ _id: -1 }).limit(10);
+      ]).sort({ _id: -1 }).limit(9);
       res.status(200).json(mostrarNoticias);
     } else {
-      const mostrarNoticias = await Noticias.find().sort({ _id: -1 }).limit(20);
+      const mostrarNoticias = await Noticias.find().sort({ _id: -1 }).limit(9);
       res.status(200).json(mostrarNoticias);
     }
   } catch (err) {

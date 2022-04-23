@@ -1,28 +1,28 @@
 const router = require("express").Router();
-const query = require("express/lib/middleware/query");
 const { getAllNoticias } = require("../controllers/noticiasTableController");
 const Noticias = require("../models/Noticias");
 const verify = require("../verifyToken");
 
 //creando noticia nueva
 
-router.post("/", verify, async (req, res) => {
+router.post("/", verify, async (req, res, next) => {
   if (req.user.isAdmin) {
     const noticiaNueva = new Noticias(req.body);
     try {
       const noticiaGuardar = await noticiaNueva.save();
       res.status(201).json(noticiaGuardar);
     } catch (err) {
-      res.status(500).json(err);
+      next(err)
+     // res.status(500).json(err);
     }
   } else {
-    res.status(403).json("No puedes crear una noticia nueva");
+    res.status(403).json("No tienes permisos para crear una noticia nueva");
   }
 });
 
 //update
 
-router.put("/:id", verify, async (req, res) => {
+router.put("/:id", verify, async (req, res, next) => {
   if (req.user.isAdmin) {
     try {
       const updatearNoticia = await Noticias.findByIdAndUpdate(
@@ -30,14 +30,16 @@ router.put("/:id", verify, async (req, res) => {
         {
           $set: req.body,
         },
-        { new: true }
+        { new: true,
+          runValidators : true },
       );
       res.status(200).json(updatearNoticia);
     } catch (err) {
-      res.status(500).json(err);
+      next(err)
+      //res.status(500).json(err);
     }
   } else {
-    res.status(403).json("No puedes actualizar la noticia nueva");
+    res.status(403).json("No tienes permisos para actualizar la noticia ");
   }
 });
 
@@ -52,7 +54,7 @@ router.delete("/:id", verify, async (req, res) => {
       res.status(500).json(err);
     }
   } else {
-    res.status(403).json("No puedes borrar la noticia");
+    res.status(403).json("No tienes permisos para borrar la noticia");
   }
 });
 
@@ -68,19 +70,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 // get todas las noticias
-/*
- router.get("/",  async (req, res) => {
-     
-       try {
-         const noticias = 
-            await Noticias.find().sort({ _id: -1 }).limit(20);
-         res.status(200).json(noticias);
-       } catch (err) {
-         res.status(500).json(err);
-       }
-   });
- 
- */
+
    router.route("/").get(getAllNoticias);
 
 module.exports = router;
